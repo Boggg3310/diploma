@@ -1,792 +1,841 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дипломная работа - HTML/CSS Квест</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.25) 0%, transparent 50%),
-                linear-gradient(135deg, #0c2461, #1e3799, #2c3e50, #4a69bd);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            color: white;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 50px,
-                    rgba(255, 255, 255, 0.03) 50px,
-                    rgba(255, 255, 255, 0.03) 51px
-                );
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .shape {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .shape:nth-child(2) {
-            width: 120px;
-            height: 120px;
-            top: 60%;
-            right: 10%;
-            animation-delay: -2s;
-        }
-
-        .shape:nth-child(3) {
-            width: 60px;
-            height: 60px;
-            bottom: 20%;
-            left: 20%;
-            animation-delay: -4s;
-        }
-
-        .shape:nth-child(4) {
-            width: 100px;
-            height: 100px;
-            top: 30%;
-            right: 30%;
-            animation-delay: -1s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-            width: 100%;
-        }
-
-        .diploma-title {
-            font-size: 4.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, #00b4db, #0083b0, #00c6ff, #0072ff);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            position: relative;
-            display: inline-block;
-            padding: 20px 40px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: gradient-flow 4s ease-in-out infinite;
-            text-shadow: 
-                0 0 20px rgba(0, 198, 255, 0.8),
-                0 0 40px rgba(0, 114, 255, 0.6),
-                0 0 60px rgba(0, 180, 219, 0.4);
-        }
-
-        .diploma-title::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 3px solid transparent;
-            border-radius: 15px;
-            background: linear-gradient(45deg, #00b4db, #0083b0, #00c6ff, #0072ff);
-            background-size: 300% 300%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            padding: 3px;
-            animation: border-glow 3s ease-in-out infinite;
-        }
-
-        .link-section {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-
-        .link-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #ffffff, #8B5CF6, #EC4899, #ffffff);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 15px;
-            display: block;
-            animation: purple-flow 3s ease-in-out infinite;
-            text-shadow: 
-                0 0 15px rgba(139, 92, 246, 0.7),
-                0 0 30px rgba(236, 72, 153, 0.5);
-            position: relative;
-            padding: 10px;
-        }
-
-        .figma-url {
-            font-size: 1.2rem;
-            color: #e2e8ff;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px 25px;
-            border-radius: 12px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-family: 'Courier New', monospace;
-        }
-
-        .figma-url:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(139, 92, 246, 0.5);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-            transform: translateY(-2px);
-        }
-
-        /* Стили для игры */
-        .game-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 1100px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .game-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 25px;
-            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .game-content {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .game-stats {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .level-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .level-dot {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .level-dot.active {
-            background: #ffd700;
-            box-shadow: 0 0 10px #ffd700;
-            transform: scale(1.2);
-        }
-
-        .level-dot.completed {
-            background: #4CAF50;
-        }
-
-        .level-dot:hover:not(.active) {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .progress-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            height: 10px;
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A, #4CAF50);
-            background-size: 200% 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-            animation: progress-glow 2s ease-in-out infinite;
-        }
-
-        .task-container {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .task-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .task-icon {
-            font-size: 1.8rem;
-        }
-
-        .task-description {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .interactive-area {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .code-editor {
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            flex: 1;
-            min-width: 300px;
-            border: 1px solid #444;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .code-line {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .line-number {
-            color: #6e7681;
-            width: 30px;
-            text-align: right;
-            margin-right: 15px;
-            user-select: none;
-        }
-
-        .code-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px dashed #555;
-            color: #d4d4d4;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            flex: 1;
-            outline: none;
-            padding: 4px 8px;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
-        .code-input:focus {
-            border-color: #007acc;
-            background: rgba(0, 122, 204, 0.1);
-        }
-
-        .code-input.correct {
-            background: rgba(76, 175, 80, 0.2);
-            border: 1px solid #4CAF50;
-        }
-
-        .code-input.incorrect {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-        }
-
-        .hint-button {
-            background: linear-gradient(45deg, #8B5CF6, #EC4899);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .hint-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
-        }
-
-        .hint-text {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: none;
-            border-left: 4px solid #8B5CF6;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .game-button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 150px;
-        }
-
-        .check-button {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-        }
-
-        .check-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-        }
-
-        .next-button {
-            background: linear-gradient(45deg, #2196F3, #0b7dda);
-            color: white;
-        }
-
-        .next-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
-        }
-
-        .reset-button {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
-            color: white;
-        }
-
-        .reset-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
-        }
-
-        .game-feedback {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            animation: slideIn 0.5s ease;
-        }
-
-        .feedback-correct {
-            background: rgba(76, 175, 80, 0.2);
-            border: 1px solid #4CAF50;
-        }
-
-        .feedback-incorrect {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-        }
-
-        .completion-message {
-            text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            margin-top: 20px;
-            display: none;
-            animation: zoomIn 0.5s ease;
-        }
-
-        .completion-title {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
-
-        .achievement-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            color: #0c2461;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 5px;
-            animation: pulse 2s infinite;
-            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
-        }
-
-        /* Анимации */
-        @keyframes gradient-flow {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        @keyframes purple-flow {
-            0%, 100% {
-                background-position: 0% 50%;
-                text-shadow: 
-                    0 0 15px rgba(139, 92, 246, 0.7),
-                    0 0 30px rgba(236, 72, 153, 0.5);
-            }
-            50% {
-                background-position: 100% 50%;
-                text-shadow: 
-                    0 0 20px rgba(139, 92, 246, 0.9),
-                    0 0 40px rgba(236, 72, 153, 0.7),
-                    0 0 60px rgba(255, 255, 255, 0.5);
-            }
-        }
-
-        @keyframes border-glow {
-            0%, 100% {
-                background-position: 0% 50%;
-                opacity: 1;
-            }
-            50% {
-                background-position: 100% 50%;
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes progress-glow {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .diploma-title {
-                font-size: 2.5rem;
-                padding: 15px 25px;
-            }
-            
-            .link-text {
-                font-size: 1.3rem;
-            }
-            
-            .figma-url {
-                font-size: 1rem;
-                padding: 12px 20px;
-            }
-            
-            .link-section {
-                padding: 20px;
-            }
-            
-            .game-title {
-                font-size: 2rem;
-            }
-            
-            .task-title {
-                font-size: 1.3rem;
-            }
-            
-            .interactive-area {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .diploma-title {
-                font-size: 2rem;
-                letter-spacing: 1px;
-            }
-            
-            .link-text {
-                font-size: 1.1rem;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .game-container {
-                padding: 20px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .game-stats {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Дипломная работа - HTML/CSS Квест</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background:
+				radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+				radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+				radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.25) 0%, transparent 50%),
+				linear-gradient(135deg, #0c2461, #1e3799, #2c3e50, #4a69bd);
+			min-height: 100vh;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 20px;
+			overflow-x: hidden;
+			color: white;
+			position: relative;
+		}
+
+		body::before {
+			content: '';
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background:
+				repeating-linear-gradient(0deg,
+					transparent,
+					transparent 50px,
+					rgba(255, 255, 255, 0.03) 50px,
+					rgba(255, 255, 255, 0.03) 51px);
+			pointer-events: none;
+			z-index: -1;
+		}
+
+		.floating-shapes {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: -1;
+		}
+
+		.shape {
+			position: absolute;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 50%;
+			animation: float 6s ease-in-out infinite;
+		}
+
+		.shape:nth-child(1) {
+			width: 80px;
+			height: 80px;
+			top: 10%;
+			left: 10%;
+			animation-delay: 0s;
+		}
+
+		.shape:nth-child(2) {
+			width: 120px;
+			height: 120px;
+			top: 60%;
+			right: 10%;
+			animation-delay: -2s;
+		}
+
+		.shape:nth-child(3) {
+			width: 60px;
+			height: 60px;
+			bottom: 20%;
+			left: 20%;
+			animation-delay: -4s;
+		}
+
+		.shape:nth-child(4) {
+			width: 100px;
+			height: 100px;
+			top: 30%;
+			right: 30%;
+			animation-delay: -1s;
+		}
+
+		@keyframes float {
+
+			0%,
+			100% {
+				transform: translateY(0px) rotate(0deg);
+			}
+
+			50% {
+				transform: translateY(-20px) rotate(180deg);
+			}
+		}
+
+		.header {
+			text-align: center;
+			margin-bottom: 30px;
+			position: relative;
+			width: 100%;
+		}
+
+		.diploma-title {
+			font-size: 4.5rem;
+			font-weight: 900;
+			background: linear-gradient(45deg, #00b4db, #0083b0, #00c6ff, #0072ff);
+			background-size: 300% 300%;
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			position: relative;
+			display: inline-block;
+			padding: 20px 40px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			animation: gradient-flow 4s ease-in-out infinite;
+			text-shadow:
+				0 0 20px rgba(0, 198, 255, 0.8),
+				0 0 40px rgba(0, 114, 255, 0.6),
+				0 0 60px rgba(0, 180, 219, 0.4);
+		}
+
+		.diploma-title::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			border: 3px solid transparent;
+			border-radius: 15px;
+			background: linear-gradient(45deg, #00b4db, #0083b0, #00c6ff, #0072ff);
+			background-size: 300% 300%;
+			-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+			mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+			padding: 3px;
+			animation: border-glow 3s ease-in-out infinite;
+		}
+
+		.link-section {
+			text-align: center;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			padding: 20px;
+			border-radius: 20px;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+			max-width: 800px;
+			width: 100%;
+			margin-bottom: 40px;
+		}
+
+		.link-text {
+			font-size: 1.8rem;
+			font-weight: 700;
+			background: linear-gradient(45deg, #ffffff, #8B5CF6, #EC4899, #ffffff);
+			background-size: 300% 300%;
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			margin-bottom: 15px;
+			display: block;
+			animation: purple-flow 3s ease-in-out infinite;
+			text-shadow:
+				0 0 15px rgba(139, 92, 246, 0.7),
+				0 0 30px rgba(236, 72, 153, 0.5);
+			position: relative;
+			padding: 10px;
+		}
+
+		.figma-url {
+			font-size: 1.2rem;
+			color: #e2e8ff;
+			background: rgba(0, 0, 0, 0.3);
+			padding: 15px 25px;
+			border-radius: 12px;
+			display: inline-block;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			transition: all 0.3s ease;
+			text-decoration: none;
+			font-family: 'Courier New', monospace;
+		}
+
+		.figma-url:hover {
+			background: rgba(255, 255, 255, 0.1);
+			border-color: rgba(139, 92, 246, 0.5);
+			box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+			transform: translateY(-2px);
+		}
+
+		/* Стили для игры */
+		.game-container {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(15px);
+			border-radius: 20px;
+			padding: 30px;
+			width: 100%;
+			max-width: 1100px;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			box-shadow:
+				0 10px 30px rgba(0, 0, 0, 0.3),
+				inset 0 1px 0 rgba(255, 255, 255, 0.1);
+			margin-bottom: 30px;
+		}
+
+		.game-title {
+			text-align: center;
+			font-size: 2.5rem;
+			margin-bottom: 25px;
+			background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+		}
+
+		.game-content {
+			display: flex;
+			flex-direction: column;
+			gap: 25px;
+		}
+
+		.game-stats {
+			display: flex;
+			justify-content: space-between;
+			background: rgba(0, 0, 0, 0.2);
+			padding: 15px;
+			border-radius: 10px;
+			margin-bottom: 20px;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.stat-item {
+			text-align: center;
+		}
+
+		.stat-value {
+			font-size: 1.8rem;
+			font-weight: bold;
+			color: #ffd700;
+		}
+
+		.level-indicator {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+			margin-bottom: 20px;
+			flex-wrap: wrap;
+		}
+
+		.level-dot {
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.3);
+			transition: all 0.3s ease;
+			cursor: pointer;
+		}
+
+		.level-dot.active {
+			background: #ffd700;
+			box-shadow: 0 0 10px #ffd700;
+			transform: scale(1.2);
+		}
+
+		.level-dot.completed {
+			background: #4CAF50;
+		}
+
+		.level-dot:hover:not(.active) {
+			transform: scale(1.1);
+			background: rgba(255, 255, 255, 0.5);
+		}
+
+		.progress-container {
+			width: 100%;
+			background: rgba(255, 255, 255, 0.1);
+			height: 10px;
+			border-radius: 5px;
+			margin: 20px 0;
+			overflow: hidden;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.progress-bar {
+			height: 100%;
+			background: linear-gradient(90deg, #4CAF50, #8BC34A, #4CAF50);
+			background-size: 200% 100%;
+			width: 0%;
+			transition: width 0.5s ease;
+			animation: progress-glow 2s ease-in-out infinite;
+		}
+
+		.task-container {
+			background: rgba(0, 0, 0, 0.2);
+			border-radius: 15px;
+			padding: 20px;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			transition: all 0.5s ease;
+		}
+
+		.task-title {
+			font-size: 1.5rem;
+			margin-bottom: 15px;
+			color: #ffd700;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.task-icon {
+			font-size: 1.8rem;
+		}
+
+		.task-description {
+			margin-bottom: 20px;
+			line-height: 1.6;
+		}
+
+		.theory-section {
+			background: rgba(255, 215, 0, 0.1);
+			border-radius: 10px;
+			padding: 20px;
+			margin-bottom: 25px;
+			border-left: 4px solid #ffd700;
+		}
+
+		.theory-title {
+			color: #ffd700;
+			font-size: 1.3rem;
+			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.theory-content {
+			line-height: 1.7;
+		}
+
+		.theory-content p {
+			margin-bottom: 12px;
+		}
+
+		.theory-content ul,
+		.theory-content ol {
+			margin: 10px 0 10px 20px;
+		}
+
+		.theory-content li {
+			margin-bottom: 8px;
+		}
+
+		.code-example {
+			background: #1e1e1e;
+			border-radius: 8px;
+			padding: 15px;
+			margin: 15px 0;
+			font-family: 'Courier New', monospace;
+			border: 1px solid #444;
+		}
+
+		.fact-box {
+			background: rgba(255, 215, 0, 0.1);
+			border-left: 4px solid #ffd700;
+			padding: 15px;
+			border-radius: 8px;
+			margin: 15px 0;
+			display: none;
+		}
+
+		.fact-title {
+			color: #ffd700;
+			font-weight: bold;
+			margin-bottom: 8px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.code-editor {
+			background: #1e1e1e;
+			border-radius: 10px;
+			padding: 15px;
+			font-family: 'Courier New', monospace;
+			border: 1px solid #444;
+			box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+			margin-bottom: 20px;
+		}
+
+		.code-line {
+			margin-bottom: 8px;
+			display: flex;
+			align-items: flex-start;
+		}
+
+		.line-number {
+			color: #6e7681;
+			width: 30px;
+			text-align: right;
+			margin-right: 15px;
+			user-select: none;
+		}
+
+		.code-input {
+			background: rgba(255, 255, 255, 0.1);
+			border: 1px dashed #555;
+			color: #d4d4d4;
+			font-family: 'Courier New', monospace;
+			font-size: 1rem;
+			flex: 1;
+			outline: none;
+			padding: 4px 8px;
+			border-radius: 3px;
+			transition: all 0.3s ease;
+		}
+
+		.code-input:focus {
+			border-color: #007acc;
+			background: rgba(0, 122, 204, 0.1);
+		}
+
+		.code-input.correct {
+			background: rgba(76, 175, 80, 0.2);
+			border: 1px solid #4CAF50;
+		}
+
+		.code-input.incorrect {
+			background: rgba(244, 67, 54, 0.2);
+			border: 1px solid #f44336;
+		}
+
+		.hint-button {
+			background: linear-gradient(45deg, #8B5CF6, #EC4899);
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 8px;
+			cursor: pointer;
+			margin-bottom: 15px;
+			transition: all 0.3s ease;
+			font-weight: bold;
+		}
+
+		.hint-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+		}
+
+		.hint-text {
+			background: rgba(255, 255, 255, 0.1);
+			padding: 15px;
+			border-radius: 8px;
+			margin-bottom: 15px;
+			border-left: 4px solid #8B5CF6;
+			display: none;
+		}
+
+		.action-buttons {
+			display: flex;
+			gap: 15px;
+			justify-content: center;
+			margin-top: 20px;
+			flex-wrap: wrap;
+		}
+
+		.game-button {
+			padding: 12px 25px;
+			border: none;
+			border-radius: 8px;
+			font-size: 1rem;
+			font-weight: bold;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			min-width: 150px;
+		}
+
+		.check-button {
+			background: linear-gradient(45deg, #4CAF50, #45a049);
+			color: white;
+		}
+
+		.check-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+		}
+
+		.next-button {
+			background: linear-gradient(45deg, #2196F3, #0b7dda);
+			color: white;
+		}
+
+		.next-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+		}
+
+		.reset-button {
+			background: linear-gradient(45deg, #f44336, #d32f2f);
+			color: white;
+		}
+
+		.reset-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+		}
+
+		.game-feedback {
+			text-align: center;
+			margin-top: 20px;
+			padding: 15px;
+			border-radius: 10px;
+			display: none;
+			animation: slideIn 0.5s ease;
+		}
+
+		.feedback-correct {
+			background: rgba(76, 175, 80, 0.2);
+			border: 1px solid #4CAF50;
+		}
+
+		.feedback-incorrect {
+			background: rgba(244, 67, 54, 0.2);
+			border: 1px solid #f44336;
+		}
+
+		.completion-message {
+			text-align: center;
+			padding: 30px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 15px;
+			margin-top: 20px;
+			display: none;
+			animation: zoomIn 0.5s ease;
+		}
+
+		.completion-title {
+			font-size: 2rem;
+			color: #ffd700;
+			margin-bottom: 15px;
+		}
+
+		.achievement-badge {
+			display: inline-block;
+			background: linear-gradient(45deg, #ffd700, #ffed4e);
+			color: #0c2461;
+			padding: 8px 15px;
+			border-radius: 20px;
+			font-weight: bold;
+			margin: 5px;
+			animation: pulse 2s infinite;
+			box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+		}
+
+		/* Анимации */
+		@keyframes gradient-flow {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+		}
+
+		@keyframes purple-flow {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+				text-shadow:
+					0 0 15px rgba(139, 92, 246, 0.7),
+					0 0 30px rgba(236, 72, 153, 0.5);
+			}
+
+			50% {
+				background-position: 100% 50%;
+				text-shadow:
+					0 0 20px rgba(139, 92, 246, 0.9),
+					0 0 40px rgba(236, 72, 153, 0.7),
+					0 0 60px rgba(255, 255, 255, 0.5);
+			}
+		}
+
+		@keyframes border-glow {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+				opacity: 1;
+			}
+
+			50% {
+				background-position: 100% 50%;
+				opacity: 0.8;
+			}
+		}
+
+		@keyframes pulse {
+			0% {
+				transform: scale(1);
+			}
+
+			50% {
+				transform: scale(1.05);
+			}
+
+			100% {
+				transform: scale(1);
+			}
+		}
+
+		@keyframes progress-glow {
+
+			0%,
+			100% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes zoomIn {
+			from {
+				opacity: 0;
+				transform: scale(0.8);
+			}
+
+			to {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		/* Адаптивность */
+		@media (max-width: 768px) {
+			.diploma-title {
+				font-size: 2.5rem;
+				padding: 15px 25px;
+			}
+
+			.link-text {
+				font-size: 1.3rem;
+			}
+
+			.figma-url {
+				font-size: 1rem;
+				padding: 12px 20px;
+			}
+
+			.link-section {
+				padding: 20px;
+			}
+
+			.game-title {
+				font-size: 2rem;
+			}
+
+			.task-title {
+				font-size: 1.3rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.diploma-title {
+				font-size: 2rem;
+				letter-spacing: 1px;
+			}
+
+			.link-text {
+				font-size: 1.1rem;
+			}
+
+			body {
+				padding: 10px;
+			}
+
+			.game-container {
+				padding: 20px;
+			}
+
+			.action-buttons {
+				flex-direction: column;
+			}
+
+			.game-stats {
+				flex-direction: column;
+				gap: 10px;
+			}
+		}
+	</style>
 </head>
+
 <body>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
+	<div class="floating-shapes">
+		<div class="shape"></div>
+		<div class="shape"></div>
+		<div class="shape"></div>
+		<div class="shape"></div>
+	</div>
 
-    <div class="header">
-        <h1 class="diploma-title">Дипломная работа</h1>
-    </div>
-    
-    <div class="link-section">
-        <span class="link-text">вот моя ссылка на фигму:</span>
-        <a href="https://www.figma.com/files/team/1476527379813931607/recents-and-sharing?fuid=1476527375806764655" 
-           class="figma-url" 
-           target="_blank">
-            https://www.figma.com/files/team/1476527379813931607/recents-and-sharing?fuid=1476527375806764655
-        </a>
-    </div>
+	<div class="header">
+		<h1 class="diploma-title">Дипломная работа</h1>
+	</div>
 
-    <div class="game-container">
-        <h2 class="game-title">HTML/CSS Квест</h2>
-        
-        <div class="game-stats">
-            <div class="stat-item">
-                <div class="stat-value" id="score">0</div>
-                <div>Очки</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="level-counter">1/5</div>
-                <div>Уровень</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="hints-used">0</div>
-                <div>Подсказки</div>
-            </div>
-        </div>
-        
-        <div class="level-indicator" id="level-indicator">
-            <!-- Уровни будут добавлены через JavaScript -->
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        
-        <div class="game-content">
-            <div class="task-container" id="task-container">
-                <h3 class="task-title"><span class="task-icon">📄</span>Уровень 1: Основы HTML</h3>
-                <p class="task-description">
-                    Создайте базовую структуру HTML-документа. Заполните пропуски в коде.
-                </p>
-                
-                <div class="code-editor">
-                    <div class="code-line">
-                        <span class="line-number">1</span>
-                        <span class="code-text">&lt;!DOCTYPE </span>
-                        <input type="text" class="code-input" id="input-1" placeholder="тип документа">
-                        <span class="code-text">&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">2</span>
-                        <span class="code-text">&lt;html </span>
-                        <input type="text" class="code-input" id="input-2" placeholder="атрибут">
-                        <span class="code-text">="ru"&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">3</span>
-                        <span class="code-text">&lt;</span>
-                        <input type="text" class="code-input" id="input-3" placeholder="тег">
-                        <span class="code-text">&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">4</span>
-                        <span class="code-text">&lt;title&gt;Мой сайт&lt;/</span>
-                        <input type="text" class="code-input" id="input-4" placeholder="тег">
-                        <span class="code-text">&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">5</span>
-                        <span class="code-text">&lt;/head&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">6</span>
-                        <span class="code-text">&lt;body&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">7</span>
-                        <span class="code-text">&lt;h1&gt;Привет, мир!&lt;/</span>
-                        <input type="text" class="code-input" id="input-5" placeholder="тег">
-                        <span class="code-text">&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">8</span>
-                        <span class="code-text">&lt;/body&gt;</span>
-                    </div>
-                    <div class="code-line">
-                        <span class="line-number">9</span>
-                        <span class="code-text">&lt;/html&gt;</span>
-                    </div>
-                </div>
-                
-                <button class="hint-button" id="hint-button">💡 Показать подсказку</button>
-                <div class="hint-text" id="hint-text">
-                    Подсказка: HTML документ начинается с объявления типа документа. Основные теги: html, head, title, body.
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="game-button check-button" id="check-button">✅ Проверить</button>
-                <button class="game-button next-button" id="next-button" disabled>➡️ Следующий уровень</button>
-                <button class="game-button reset-button" id="reset-button">🔄 Начать заново</button>
-            </div>
-            
-            <div class="game-feedback" id="game-feedback"></div>
-        </div>
-        
-        <div class="completion-message" id="completion-message">
-            <h3 class="completion-title">🎉 Поздравляем!</h3>
-            <p>Вы успешно завершили HTML/CSS квест!</p>
-            <p>Ваш результат: <span id="final-score">0</span> очков</p>
-            <div>
-                <span class="achievement-badge">HTML Мастер</span>
-                <span class="achievement-badge">CSS Гуру</span>
-                <span class="achievement-badge">Веб-разработчик</span>
-            </div>
-            <p>Продолжайте изучать и практиковаться, чтобы стать профессиональным разработчиком!</p>
-        </div>
-    </div>
+	<div class="link-section">
+		<span class="link-text">вот моя ссылка на фигму:</span>
+		<a href="https://www.figma.com/files/team/1476527379813931607/recents-and-sharing?fuid=1476527375806764655"
+			class="figma-url" target="_blank">
+			https://www.figma.com/files/team/1476527379813931607/recents-and-sharing?fuid=1476527375806764655
+		</a>
+	</div>
 
-    <script>
-        // Данные об уровнях игры
+	<div class="game-container">
+		<h2 class="game-title">HTML/CSS Квест</h2>
+
+		<div class="game-stats">
+			<div class="stat-item">
+				<div class="stat-value" id="score">100</div>
+				<div>Очки</div>
+			</div>
+			<div class="stat-item">
+				<div class="stat-value" id="level-counter">1/8</div>
+				<div>Уровень</div>
+			</div>
+			<div class="stat-item">
+				<div class="stat-value" id="hints-used">0</div>
+				<div>Подсказки</div>
+			</div>
+		</div>
+
+		<div class="level-indicator" id="level-indicator">
+			<!-- Уровни будут добавлены через JavaScript -->
+		</div>
+
+		<div class="progress-container">
+			<div class="progress-bar" id="progress-bar"></div>
+		</div>
+
+		<div class="game-content">
+			<div class="task-container" id="task-container">
+				<!-- Содержимое будет загружено через JavaScript -->
+			</div>
+
+			<div class="action-buttons">
+				<button class="game-button check-button" id="check-button">✅ Проверить</button>
+				<button class="game-button next-button" id="next-button" disabled>➡️ Следующий уровень</button>
+				<button class="game-button reset-button" id="reset-button">🔄 Начать заново</button>
+			</div>
+
+			<div class="game-feedback" id="game-feedback"></div>
+		</div>
+
+		<div class="completion-message" id="completion-message">
+			<h3 class="completion-title">🎉 Поздравляем!</h3>
+			<p>Вы успешно завершили HTML/CSS квест!</p>
+			<p>Ваш результат: <span id="final-score">0</span> очков</p>
+			<div>
+				<span class="achievement-badge">HTML Мастер</span>
+				<span class="achievement-badge">CSS Гуру</span>
+				<span class="achievement-badge">Веб-разработчик</span>
+			</div>
+			<p>Продолжайте изучать и практиковаться, чтобы стать профессиональным разработчиком!</p>
+		</div>
+	</div>
+
+	<script>
+		// Данные об уровнях игры
         const levels = [
             {
                 type: "code",
                 title: "Уровень 1: Основы HTML",
                 icon: "📄",
                 description: "Создайте базовую структуру HTML-документа. Заполните пропуски в коде.",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">📚 Введение в HTML</h3>
+                        <div class="theory-content">
+                            <p><strong>HTML (HyperText Markup Language)</strong> - это язык разметки, который используется для создания структуры веб-страницы. Каждая веб-страница в интернете построена с помощью HTML.</p>
+                            
+                            <p><strong>Основные понятия:</strong></p>
+                            <ul>
+                                <li><strong>Теги</strong> - элементы HTML, которые определяют структуру содержимого</li>
+                                <li><strong>Атрибуты</strong> - дополнительные свойства тегов</li>
+                                <li><strong>Элементы</strong> - теги вместе с их содержимым</li>
+                            </ul>
+                            
+                            <p><strong>Базовая структура HTML-документа:</strong></p>
+                            <div class="code-example">
+                                &lt;!DOCTYPE html&gt;<br>
+                                &lt;html lang="ru"&gt;<br>
+                                &lt;head&gt;<br>
+                                &nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+                                &nbsp;&nbsp;&lt;title&gt;Название страницы&lt;/title&gt;<br>
+                                &lt;/head&gt;<br>
+                                &lt;body&gt;<br>
+                                &nbsp;&nbsp;&lt;h1&gt;Заголовок&lt;/h1&gt;<br>
+                                &nbsp;&nbsp;&lt;p&gt;Абзац текста&lt;/p&gt;<br>
+                                &lt;/body&gt;<br>
+                                &lt;/html&gt;
+                            </div>
+                            
+                            <p>В этом задании вам нужно создать правильную структуру HTML-документа, заполнив пропуски в коде.</p>
+                        </div>
+                    </div>
+                `,
                 code: [
                     {text: '&lt;!DOCTYPE ', type: 'input', id: 'input-1', correct: 'html', placeholder: 'тип документа'},
                     {text: '&gt;', type: 'text'},
@@ -803,13 +852,47 @@
                     {text: '&lt;/body&gt;', type: 'text'},
                     {text: '&lt;/html&gt;', type: 'text'}
                 ],
-                hint: "HTML документ начинается с объявления типа документа. Основные теги: html, head, title, body."
+                hint: "HTML документ начинается с объявления типа документа. Основные теги: html, head, title, body.",
+                fact: "📚 <strong>Интересный факт:</strong> HTML был создан Тимом Бернерсом-Ли в 1991 году. Изначально он предназначался для обмена научными документами между исследователями."
             },
             {
                 type: "code",
                 title: "Уровень 2: Основы CSS",
                 icon: "🎨",
                 description: "Добавьте CSS стили для оформления страницы. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">🎨 Введение в CSS</h3>
+                        <div class="theory-content">
+                            <p><strong>CSS (Cascading Style Sheets)</strong> - это язык стилей, который используется для оформления HTML-документов. CSS позволяет изменять цвета, шрифты, расположение элементов и многое другое.</p>
+                            
+                            <p><strong>Основные понятия CSS:</strong></p>
+                            <ul>
+                                <li><strong>Селектор</strong> - указывает, к каким элементам применять стили</li>
+                                <li><strong>Свойство</strong> - аспект оформления, который нужно изменить</li>
+                                <li><strong>Значение</strong> - конкретная настройка свойства</li>
+                            </ul>
+                            
+                            <p><strong>Синтаксис CSS:</strong></p>
+                            <div class="code-example">
+                                селектор {<br>
+                                &nbsp;&nbsp;свойство: значение;<br>
+                                &nbsp;&nbsp;другое-свойство: значение;<br>
+                                }
+                            </div>
+                            
+                            <p><strong>Примеры CSS свойств:</strong></p>
+                            <ul>
+                                <li><code>color</code> - цвет текста</li>
+                                <li><code>background-color</code> - цвет фона</li>
+                                <li><code>font-size</code> - размер шрифта</li>
+                                <li><code>text-align</code> - выравнивание текста</li>
+                            </ul>
+                            
+                            <p>В этом задании вы добавите стили к HTML-странице, чтобы сделать ее более привлекательной.</p>
+                        </div>
+                    </div>
+                `,
                 code: [
                     {text: '&lt;style&gt;', type: 'text'},
                     {text: 'body {', type: 'text'},
@@ -829,13 +912,40 @@
                     {text: '}', type: 'text'},
                     {text: '&lt;/style&gt;', type: 'text'}
                 ],
-                hint: "CSS свойства: background-color для фона, color для цвета текста, text-align для выравнивания."
+                hint: "CSS свойства: background-color для фона, color для цвета текста, text-align для выравнивания.",
+                fact: "🎨 <strong>Интересный факт:</strong> CSS был предложен Хоком Виумом Ли в 1994 году. Первая версия CSS1 была выпущена в 1996 году и содержала всего 50 свойств."
             },
             {
                 type: "code",
                 title: "Уровень 3: Flexbox Layout",
                 icon: "🗂️",
                 description: "Создайте flex-контейнер с элементами. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">🗂️ Flexbox - гибкая верстка</h3>
+                        <div class="theory-content">
+                            <p><strong>Flexbox</strong> - это модуль CSS, который предоставляет эффективный способ расположения, выравнивания и распределения пространства между элементами в контейнере, даже когда их размер неизвестен или изменяется.</p>
+                            
+                            <p><strong>Основные понятия Flexbox:</strong></p>
+                            <ul>
+                                <li><strong>Flex-контейнер</strong> - элемент, к которому применяется <code>display: flex</code></li>
+                                <li><strong>Flex-элементы</strong> - непосредственные дочерние элементы flex-контейнера</li>
+                                <li><strong>Основная ось</strong> - основное направление расположения элементов</li>
+                                <li><strong>Поперечная ось</strong> - ось, перпендикулярная основной</li>
+                            </ul>
+                            
+                            <p><strong>Основные свойства Flexbox:</strong></p>
+                            <ul>
+                                <li><code>display: flex</code> - создает flex-контейнер</li>
+                                <li><code>justify-content</code> - выравнивание элементов по основной оси</li>
+                                <li><code>align-items</code> - выравнивание элементов по поперечной оси</li>
+                                <li><code>flex</code> - определяет способность элемента растягиваться или сжиматься</li>
+                            </ul>
+                            
+                            <p>В этом задании вы создадите flex-контейнер и настроите расположение элементов внутри него.</p>
+                        </div>
+                    </div>
+                `,
                 code: [
                     {text: '&lt;style&gt;', type: 'text'},
                     {text: '.container {', type: 'text'},
@@ -851,13 +961,39 @@
                     {text: '}', type: 'text'},
                     {text: '&lt;/style&gt;', type: 'text'}
                 ],
-                hint: "display: flex создает flex-контейнер, justify-content управляет расположением элементов, flex определяет гибкость."
+                hint: "display: flex создает flex-контейнер, justify-content управляет расположением элементов, flex определяет гибкость.",
+                fact: "📦 <strong>Интересный факт:</strong> Flexbox был разработан для решения проблем с версткой, которые невозможно было решить с помощью традиционных методов CSS. Он стал популярен после 2015 года."
             },
             {
                 type: "code",
                 title: "Уровень 4: CSS Анимации",
                 icon: "✨",
                 description: "Создайте простую CSS анимацию. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">✨ CSS Анимации</h3>
+                        <div class="theory-content">
+                            <p><strong>CSS анимации</strong> позволяют создавать плавные переходы между различными стилями элементов. Анимации состоят из двух основных компонентов: ключевых кадров (keyframes) и свойств анимации.</p>
+                            
+                            <p><strong>Ключевые кадры (keyframes):</strong></p>
+                            <ul>
+                                <li>Определяют, какие стили будет иметь элемент в определенных точках анимации</li>
+                                <li>Задаются с помощью правила <code>@keyframes</code></li>
+                                <li>Могут содержать проценты (0%, 50%, 100%) или ключевые слова (from, to)</li>
+                            </ul>
+                            
+                            <p><strong>Свойства анимации:</strong></p>
+                            <ul>
+                                <li><code>animation-name</code> - имя анимации (соответствует имени в @keyframes)</li>
+                                <li><code>animation-duration</code> - продолжительность анимации</li>
+                                <li><code>animation-timing-function</code> - функция времени анимации</li>
+                                <li><code>animation-iteration-count</code> - количество повторений</li>
+                            </ul>
+                            
+                            <p>В этом задании вы создадите простую анимацию изменения цвета фона элемента.</p>
+                        </div>
+                    </div>
+                `,
                 code: [
                     {text: '@keyframes ', type: 'input', id: 'input-1', correct: 'example', placeholder: 'название'},
                     {text: ' {', type: 'text'},
@@ -868,13 +1004,43 @@
                     {text: '; }', type: 'text'},
                     {text: '}', type: 'text'}
                 ],
-                hint: "@keyframes определяет анимацию, background-color меняет цвет фона."
+                hint: "@keyframes определяет анимацию, background-color меняет цвет фона.",
+                fact: "✨ <strong>Интересный факт:</strong> CSS анимации появились в CSS3 и позволяют создавать плавные переходы без использования JavaScript. Они работают напрямую в браузере, что делает их очень производительными."
             },
             {
                 type: "code",
-                title: "Уровень 5: Завершение",
-                icon: "🏆",
+                title: "Уровень 5: Градиенты",
+                icon: "🌈",
                 description: "Создайте красивую кнопку с градиентом. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">🌈 CSS Градиенты</h3>
+                        <div class="theory-content">
+                            <p><strong>CSS градиенты</strong> позволяют создавать плавные переходы между двумя или более цветами. Вместо использования изображений для градиентных фонов, можно использовать CSS, что улучшает производительность и гибкость.</p>
+                            
+                            <p><strong>Типы градиентов:</strong></p>
+                            <ul>
+                                <li><strong>Линейные градиенты</strong> - переход цвета вдоль прямой линии</li>
+                                <li><strong>Радиальные градиенты</strong> - переход цвета из центра наружу</li>
+                                <li><strong>Конические градиенты</strong> - переход цвета вокруг центральной точки</li>
+                            </ul>
+                            
+                            <p><strong>Синтаксис линейного градиента:</strong></p>
+                            <div class="code-example">
+                                background: linear-gradient(направление, цвет1, цвет2, ...);
+                            </div>
+                            
+                            <p><strong>Примеры направлений:</strong></p>
+                            <ul>
+                                <li><code>to right</code> - слева направо</li>
+                                <li><code>to bottom</code> - сверху вниз</li>
+                                <li><code>45deg</code> - под углом 45 градусов</li>
+                            </ul>
+                            
+                            <p>В этом задании вы создадите кнопку с красивым градиентным фоном.</p>
+                        </div>
+                    </div>
+                `,
                 code: [
                     {text: '.button {', type: 'text'},
                     {text: '  background: ', type: 'input', id: 'input-1', correct: 'linear-gradient', placeholder: 'функция'},
@@ -887,14 +1053,162 @@
                     {text: '  cursor: pointer;', type: 'text'},
                     {text: '}', type: 'text'}
                 ],
-                hint: "linear-gradient создает градиентный фон, none убирает границу."
+                hint: "linear-gradient создает градиентный фон, none убирает границу.",
+                fact: "🌈 <strong>Интересный факт:</strong> CSS градиенты позволяют создавать плавные переходы между цветами без использования изображений. Это снижает нагрузку на сервер и ускоряет загрузку страниц."
+            },
+            {
+                type: "code",
+                title: "Уровень 6: Псевдоклассы",
+                icon: "🔍",
+                description: "Добавьте эффекты при наведении на ссылку. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">🔍 CSS Псевдоклассы</h3>
+                        <div class="theory-content">
+                            <p><strong>Псевдоклассы</strong> - это ключевые слова, добавляемые к селекторам, которые определяют особое состояние элемента. Они позволяют применять стили к элементам в зависимости от их состояния или положения.</p>
+                            
+                            <p><strong>Распространенные псевдоклассы:</strong></p>
+                            <ul>
+                                <li><code>:hover</code> - применяется при наведении курсора на элемент</li>
+                                <li><code>:active</code> - применяется при активации элемента (например, нажатии)</li>
+                                <li><code>:focus</code> - применяется когда элемент получает фокус</li>
+                                <li><code>:visited</code> - применяется к посещенным ссылкам</li>
+                                <li><code>:first-child</code> - применяется к первому дочернему элементу</li>
+                                <li><code>:last-child</code> - применяется к последнему дочернему элементу</li>
+                            </ul>
+                            
+                            <p><strong>Синтаксис псевдоклассов:</strong></p>
+                            <div class="code-example">
+                                селектор:псевдокласс {<br>
+                                &nbsp;&nbsp;свойство: значение;<br>
+                                }
+                            </div>
+                            
+                            <p>В этом задании вы добавите эффекты при наведении на ссылку, используя псевдокласс :hover.</p>
+                        </div>
+                    </div>
+                `,
+                code: [
+                    {text: 'a:', type: 'input', id: 'input-1', correct: 'hover', placeholder: 'псевдокласс'},
+                    {text: ' {', type: 'text'},
+                    {text: '  ', type: 'input', id: 'input-2', correct: 'color', placeholder: 'свойство'},
+                    {text: ': ', type: 'text'},
+                    {text: '', type: 'input', id: 'input-3', correct: 'red', placeholder: 'цвет'},
+                    {text: ';', type: 'text'},
+                    {text: '  text-', type: 'input', id: 'input-4', correct: 'decoration', placeholder: 'свойство'},
+                    {text: ': ', type: 'text'},
+                    {text: '', type: 'input', id: 'input-5', correct: 'underline', placeholder: 'значение'},
+                    {text: ';', type: 'text'},
+                    {text: '}', type: 'text'}
+                ],
+                hint: "Псевдокласс :hover активируется при наведении курсора на элемент.",
+                fact: "🔍 <strong>Интересный факт:</strong> CSS псевдоклассы позволяют применять стили к элементам в определенном состоянии, например, при наведении, фокусе или активации. Это улучшает пользовательский опыт."
+            },
+            {
+                type: "code",
+                title: "Уровень 7: Медиазапросы",
+                icon: "📱",
+                description: "Создайте адаптивный дизайн для мобильных устройств. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">📱 Адаптивный дизайн с медиазапросами</h3>
+                        <div class="theory-content">
+                            <p><strong>Медиазапросы</strong> - это функция CSS3, которая позволяет применять стили в зависимости от характеристик устройства, таких как ширина экрана, высота, ориентация и разрешение.</p>
+                            
+                            <p><strong>Синтаксис медиазапросов:</strong></p>
+                            <div class="code-example">
+                                @media условие {<br>
+                                &nbsp;&nbsp;/* CSS правила */<br>
+                                }
+                            </div>
+                            
+                            <p><strong>Типичные условия медиазапросов:</strong></p>
+                            <ul>
+                                <li><code>max-width: 768px</code> - для экранов шириной до 768px</li>
+                                <li><code>min-width: 769px</code> - для экранов шириной от 769px</li>
+                                <li><code>orientation: landscape</code> - для альбомной ориентации</li>
+                                <li><code>orientation: portrait</code> - для портретной ориентации</li>
+                            </ul>
+                            
+                            <p><strong>Типы устройств:</strong></p>
+                            <ul>
+                                <li><code>screen</code> - для экранов</li>
+                                <li><code>print</code> - для печати</li>
+                                <li><code>speech</code> - для скринридеров</li>
+                            </ul>
+                            
+                            <p>В этом задании вы создадите медиазапрос для адаптации стилей под мобильные устройства.</p>
+                        </div>
+                    </div>
+                `,
+                code: [
+                    {text: '@media ', type: 'input', id: 'input-1', correct: 'screen', placeholder: 'тип'},
+                    {text: ' and (max-width: ', type: 'text'},
+                    {text: '', type: 'input', id: 'input-2', correct: '768px', placeholder: 'ширина'},
+                    {text: ') {', type: 'text'},
+                    {text: '  body {', type: 'text'},
+                    {text: '    font-size: ', type: 'input', id: 'input-3', correct: '14px', placeholder: 'размер'},
+                    {text: ';', type: 'text'},
+                    {text: '  }', type: 'text'},
+                    {text: '}', type: 'text'}
+                ],
+                hint: "Медиазапросы позволяют применять стили в зависимости от характеристик устройства.",
+                fact: "📱 <strong>Интересный факт:</strong> Медиазапросы стали стандартом с появлением CSS3 и революционизировали веб-дизайн, позволив создавать адаптивные сайты, которые корректно отображаются на любых устройствах."
+            },
+            {
+                type: "code",
+                title: "Уровень 8: CSS Grid",
+                icon: "🔲",
+                description: "Создайте сетку макета с помощью CSS Grid. Заполните пропуски:",
+                theory: `
+                    <div class="theory-section">
+                        <h3 class="theory-title">🔲 CSS Grid Layout</h3>
+                        <div class="theory-content">
+                            <p><strong>CSS Grid</strong> - это мощная система макетов, которая позволяет создавать двумерные сетки для размещения элементов. В отличие от Flexbox, который работает в одном измерении, Grid работает и по строкам, и по столбцам.</p>
+                            
+                            <p><strong>Основные понятия Grid:</strong></p>
+                            <ul>
+                                <li><strong>Grid-контейнер</strong> - элемент с <code>display: grid</code></li>
+                                <li><strong>Grid-элементы</strong> - дочерние элементы grid-контейнера</li>
+                                <li><strong>Строки и столбцы</strong> - определяют структуру сетки</li>
+                                <li><strong>Ячейки</strong> - области между линиями сетки</li>
+                            </ul>
+                            
+                            <p><strong>Основные свойства Grid:</strong></p>
+                            <ul>
+                                <li><code>display: grid</code> - создает grid-контейнер</li>
+                                <li><code>grid-template-columns</code> - определяет столбцы сетки</li>
+                                <li><code>grid-template-rows</code> - определяет строки сетки</li>
+                                <li><code>gap</code> - расстояние между элементами сетки</li>
+                                <li><code>grid-template-areas</code> - именованные области сетки</li>
+                            </ul>
+                            
+                            <p>В этом задании вы создадите простую grid-сетку с тремя колонками.</p>
+                        </div>
+                    </div>
+                `,
+                code: [
+                    {text: '.grid-container {', type: 'text'},
+                    {text: '  display: ', type: 'input', id: 'input-1', correct: 'grid', placeholder: 'значение'},
+                    {text: ';', type: 'text'},
+                    {text: '  grid-template-', type: 'input', id: 'input-2', correct: 'columns', placeholder: 'свойство'},
+                    {text: ': ', type: 'text'},
+                    {text: '', type: 'input', id: 'input-3', correct: 'repeat(3, 1fr)', placeholder: 'значение'},
+                    {text: ';', type: 'text'},
+                    {text: '  gap: ', type: 'input', id: 'input-4', correct: '20px', placeholder: 'расстояние'},
+                    {text: ';', type: 'text'},
+                    {text: '}', type: 'text'}
+                ],
+                hint: "CSS Grid позволяет создавать сложные макеты с помощью сетки. repeat(3, 1fr) создает 3 колонки равной ширины.",
+                fact: "🔲 <strong>Интересный факт:</strong> CSS Grid Layout был разработан для создания сложных двумерных макетов. Он стал стандартом в 2017 году и значительно упростил создание адаптивных сеток."
             }
         ];
 
         // Переменные состояния игры
         let currentLevel = 0;
-        let score = 0;
+        let score = 100; // Начальные очки
         let hintsUsed = 0;
+        let levelCompleted = Array(levels.length).fill(false);
 
         // Элементы DOM
         const taskContainer = document.getElementById('task-container');
@@ -904,8 +1218,6 @@
         const nextButton = document.getElementById('next-button');
         const resetButton = document.getElementById('reset-button');
         const gameFeedback = document.getElementById('game-feedback');
-        const hintButton = document.getElementById('hint-button');
-        const hintText = document.getElementById('hint-text');
         const completionMessage = document.getElementById('completion-message');
         const scoreElement = document.getElementById('score');
         const levelCounter = document.getElementById('level-counter');
@@ -915,6 +1227,7 @@
         // Инициализация игры
         function initGame() {
             createLevelIndicators();
+            loadLevel(currentLevel);
             updateStats();
             setupEventListeners();
         }
@@ -937,4 +1250,195 @@
         // Настройка обработчиков событий
         function setupEventListeners() {
             checkButton.addEventListener('click', checkAnswers);
-            nextButton.addEventListener
+            nextButton.addEventListener('click', nextLevel);
+            resetButton.addEventListener('click', resetGame);
+        }
+
+        // Загрузка уровня
+        function loadLevel(levelIndex) {
+            const level = levels[levelIndex];
+            
+            // Обновляем счетчик уровня
+            levelCounter.textContent = `${levelIndex + 1}/${levels.length}`;
+            
+            // Создаем содержимое уровня
+            let levelHTML = `
+                <h3 class="task-title"><span class="task-icon">${level.icon}</span>${level.title}</h3>
+                <p class="task-description">${level.description}</p>
+                ${level.theory}
+                <div class="code-editor" id="code-editor">
+            `;
+            
+            // Добавляем строки кода
+            level.code.forEach((line, index) => {
+                if (line.type === 'text') {
+                    levelHTML += `
+                        <div class="code-line">
+                            <span class="line-number">${index + 1}</span>
+                            <span class="code-text">${line.text}</span>
+                        </div>
+                    `;
+                } else if (line.type === 'input') {
+                    levelHTML += `
+                        <div class="code-line">
+                            <span class="line-number">${index + 1}</span>
+                            <span class="code-text">${line.text}</span>
+                            <input type="text" class="code-input" id="${line.id}" placeholder="${line.placeholder}">
+                        </div>
+                    `;
+                }
+            });
+            
+            levelHTML += `
+                </div>
+                <button class="hint-button" id="hint-button">💡 Показать подсказку (-10 очков)</button>
+                <div class="hint-text" id="hint-text">${level.hint}</div>
+                <div class="fact-box" id="fact-box">
+                    <div class="fact-title">📚 Факт об HTML/CSS</div>
+                    <div id="fact-content">${level.fact}</div>
+                </div>
+            `;
+            
+            // Вставляем HTML в контейнер
+            taskContainer.innerHTML = levelHTML;
+            
+            // Добавляем обработчик для кнопки подсказки
+            document.getElementById('hint-button').addEventListener('click', function() {
+                const hintText = document.getElementById('hint-text');
+                if (hintText.style.display !== 'block') {
+                    hintText.style.display = 'block';
+                    // Снимаем очки за подсказку
+                    score = Math.max(0, score - 10);
+                    hintsUsed++;
+                    updateStats();
+                }
+            });
+            
+            // Скрываем подсказку и факт изначально
+            document.getElementById('hint-text').style.display = 'none';
+            document.getElementById('fact-box').style.display = 'none';
+            
+            // Сбрасываем состояние кнопок
+            nextButton.disabled = true;
+            gameFeedback.style.display = 'none';
+            
+            // Обновляем индикатор уровней
+            updateLevelIndicator();
+            
+            // Прокручиваем к началу уровня
+            taskContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Обновление индикатора уровней
+        function updateLevelIndicator() {
+            const dots = document.querySelectorAll('.level-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                
+                if (index === currentLevel) {
+                    dot.classList.add('active');
+                } else if (index < currentLevel) {
+                    dot.classList.add('completed');
+                }
+            });
+        }
+
+        // Проверка ответов
+        function checkAnswers() {
+            const level = levels[currentLevel];
+            let allCorrect = true;
+            
+            // Проверяем каждый input
+            level.code.forEach(line => {
+                if (line.type === 'input') {
+                    const input = document.getElementById(line.id);
+                    const userAnswer = input.value.trim().toLowerCase();
+                    
+                    if (userAnswer === line.correct.toLowerCase()) {
+                        input.classList.remove('incorrect');
+                        input.classList.add('correct');
+                    } else {
+                        input.classList.remove('correct');
+                        input.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                }
+            });
+            
+            if (allCorrect) {
+                gameFeedback.textContent = '🎉 Правильно! Отличная работа!';
+                gameFeedback.className = 'game-feedback feedback-correct';
+                gameFeedback.style.display = 'block';
+                nextButton.disabled = false;
+                
+                // Показываем факт
+                document.getElementById('fact-box').style.display = 'block';
+                
+                // Начисляем очки только если уровень еще не был пройден
+                if (!levelCompleted[currentLevel]) {
+                    score += 50; // Бонус за прохождение уровня
+                    levelCompleted[currentLevel] = true;
+                    updateStats();
+                }
+                
+                // Прокручиваем к следующей кнопке
+                nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                gameFeedback.textContent = '❌ Есть ошибки. Проверьте выделенные поля.';
+                gameFeedback.className = 'game-feedback feedback-incorrect';
+                gameFeedback.style.display = 'block';
+                
+                // Штраф за неправильный ответ
+                score = Math.max(0, score - 5);
+                updateStats();
+            }
+        }
+
+        // Переход к следующему уровню
+        function nextLevel() {
+            if (currentLevel < levels.length - 1) {
+                currentLevel++;
+                loadLevel(currentLevel);
+                updateProgress();
+            } else {
+                // Игра завершена
+                completionMessage.style.display = 'block';
+                document.querySelector('.game-content').style.display = 'none';
+                finalScoreElement.textContent = score;
+                
+                // Прокручиваем к сообщению о завершении
+                completionMessage.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Сброс игры
+        function resetGame() {
+            currentLevel = 0;
+            score = 100;
+            hintsUsed = 0;
+            levelCompleted = Array(levels.length).fill(false);
+            loadLevel(currentLevel);
+            updateStats();
+            updateProgress();
+            completionMessage.style.display = 'none';
+            document.querySelector('.game-content').style.display = 'flex';
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            scoreElement.textContent = score;
+            hintsUsedElement.textContent = hintsUsed;
+        }
+
+        // Обновление прогресса
+        function updateProgress() {
+            const progress = ((currentLevel) / levels.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Запуск игры при загрузке страницы
+        window.addEventListener('DOMContentLoaded', initGame);
+	</script>
+</body>
+
+</html>
