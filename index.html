@@ -62,6 +62,49 @@
 			z-index: 1;
 		}
 
+		/* Стили для навигационных ссылок */
+		.navigation-links {
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+			margin-bottom: 30px;
+			flex-wrap: wrap;
+		}
+
+		.nav-link {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 12px 25px;
+			text-decoration: none;
+			border-radius: 12px;
+			font-weight: 600;
+			font-size: 1rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.15);
+		}
+
+		.nav-link:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+		}
+
+		.nav-link.jsitor {
+			background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+			color: white;
+		}
+
+		.nav-link.github {
+			background: linear-gradient(45deg, #333, #6e5494);
+			color: white;
+		}
+
+		.nav-icon {
+			font-size: 1.2rem;
+		}
+
 		.header {
 			text-align: center;
 			margin-bottom: 30px;
@@ -483,6 +526,15 @@
 				padding: 10px;
 			}
 
+			.navigation-links {
+				gap: 10px;
+			}
+
+			.nav-link {
+				padding: 10px 15px;
+				font-size: 0.9rem;
+			}
+
 			.diploma-title {
 				font-size: 2rem;
 			}
@@ -509,6 +561,18 @@
 	<div class="stars" id="stars"></div>
 
 	<div class="container">
+		<!-- Навигационные ссылки -->
+		<div class="navigation-links">
+			<a href="https://jsitor.com/" class="nav-link jsitor" target="_blank">
+				<span class="nav-icon">🚀</span>
+				<span>Открыть в Jsitor</span>
+			</a>
+			<a href="https://github.com/Boggg3310/diploma" class="nav-link github" target="_blank">
+				<span class="nav-icon">💾</span>
+				<span>Исходный код на GitHub</span>
+			</a>
+		</div>
+
 		<!-- Заголовок -->
 		<div class="header">
 			<h1 class="diploma-title">Дипломная работа</h1>
@@ -843,68 +907,4 @@
 					input.classList.add('correct');
 					input.classList.remove('incorrect');
 				} else {
-					input.classList.add('incorrect');
-					input.classList.remove('correct');
-					allCorrect = false;
-				}
-			});
-
-			if (allCorrect) {
-				feedback.textContent = '✅ Отлично, Саша! Ты правильно создал HTML структуру! Коля был бы горд!';
-				feedback.className = 'feedback correct';
-				feedback.style.display = 'block';
-			} else {
-				feedback.textContent = '❌ Есть небольшие ошибки. Проверь правильность тегов и атрибутов.';
-				feedback.className = 'feedback incorrect';
-				feedback.style.display = 'block';
-			}
-		}
-
-		function checkTask2() {
-			const inputs = [
-				document.getElementById('task2-input1'),
-				document.getElementById('task2-input2'),
-				document.getElementById('task2-input3'),
-				document.getElementById('task2-input4'),
-				document.getElementById('task2-input5')
-			];
-			const feedback = document.getElementById('feedback2');
-
-			const answers = ['color', 'lightblue', 'color', 'darkblue', 'align'];
-			let allCorrect = true;
-
-			inputs.forEach((input, index) => {
-				if (input.value.toLowerCase() === answers[index]) {
-					input.classList.add('correct');
-					input.classList.remove('incorrect');
-				} else {
-					input.classList.add('incorrect');
-					input.classList.remove('correct');
-					allCorrect = false;
-				}
-			});
-
-			if (allCorrect) {
-				feedback.textContent = '✅ Прекрасно! Ты освоил основы CSS! Теперь твои страницы будут красивыми!';
-				feedback.className = 'feedback correct';
-				feedback.style.display = 'block';
-			} else {
-				feedback.textContent = '❌ Почти получилось! Проверь названия свойств и цветов.';
-				feedback.className = 'feedback incorrect';
-				feedback.style.display = 'block';
-			}
-		}
-
-		function showHint(hintId) {
-			const hint = document.getElementById(hintId);
-			hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
-		}
-
-		// Запуск при загрузке страницы
-		window.addEventListener('DOMContentLoaded', () => {
-			createStars();
-		});
-	</script>
-</body>
-
-</html>
+					input.classList
