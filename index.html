@@ -392,13 +392,6 @@
 			border: 1px solid rgba(255, 255, 255, 0.1);
 		}
 
-		.progress-title {
-			color: #9fa8da;
-			font-size: 1.5rem;
-			margin-bottom: 15px;
-			text-shadow: 0 0 10px rgba(159, 168, 218, 0.3);
-		}
-
 		.character-intro {
 			display: flex;
 			justify-content: center;
@@ -438,6 +431,34 @@
 			background: linear-gradient(45deg, #7b1fa2, #9c27b0);
 		}
 
+		/* Стили для кнопки */
+		.dialog-controls {
+			display: flex;
+			justify-content: center;
+			margin: 20px 0;
+		}
+
+		.write-button {
+			background: linear-gradient(45deg, #7b1fa2, #9c27b0);
+			color: white;
+			border: none;
+			padding: 15px 30px;
+			border-radius: 10px;
+			cursor: pointer;
+			font-size: 1.2rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 6px 20px rgba(123, 31, 162, 0.4);
+		}
+
+		.write-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 25px rgba(123, 31, 162, 0.6);
+		}
+
+		.write-button:active {
+			transform: translateY(1px);
+		}
+
 		/* Полоса прокрутки */
 		.chat-container::-webkit-scrollbar {
 			width: 8px;
@@ -474,6 +495,11 @@
 			.message-content {
 				max-width: 85%;
 			}
+
+			.write-button {
+				width: 100%;
+				max-width: 300px;
+			}
 		}
 	</style>
 </head>
@@ -503,6 +529,13 @@
 			</div>
 		</div>
 
+		<!-- Кнопка для начала диалога -->
+		<div class="dialog-controls">
+			<button class="write-button" onclick="startConversation()" id="writeToKolyaBtn">
+				✏️ Написать Коле
+			</button>
+		</div>
+
 		<!-- Мессенджер -->
 		<div class="messenger">
 			<div class="messenger-header">
@@ -511,7 +544,7 @@
 			<div class="chat-container" id="chatContainer">
 				<!-- Сообщения будут добавляться через JavaScript -->
 			</div>
-			<div class="typing-indicator" id="typingIndicator">
+			<div class="typing-indicator" id="typingIndicator" style="display: none;">
 				<span>Коля печатает...</span>
 				<div class="typing-dots">
 					<div class="typing-dot"></div>
@@ -568,21 +601,6 @@
 				</div>
 
 				<div class="feedback" id="feedback1"></div>
-			</div>
-		</div>
-
-		<!-- Продолжение диалога -->
-		<div class="messenger">
-			<div class="chat-container" id="chatContainer2">
-				<!-- Сообщения будут добавляться через JavaScript -->
-			</div>
-			<div class="typing-indicator" id="typingIndicator2">
-				<span>Коля печатает...</span>
-				<div class="typing-dots">
-					<div class="typing-dot"></div>
-					<div class="typing-dot"></div>
-					<div class="typing-dot"></div>
-				</div>
 			</div>
 		</div>
 
@@ -658,13 +676,6 @@
 			</div>
 		</div>
 
-		<!-- Финальный диалог -->
-		<div class="messenger">
-			<div class="chat-container" id="chatContainer3">
-				<!-- Сообщения будут добавляться через JavaScript -->
-			</div>
-		</div>
-
 		<!-- Заключение -->
 		<div class="progress-section">
 			<h2 class="progress-title">🎉 Поздравляем! Ты прошел основы HTML и CSS!</h2>
@@ -675,231 +686,224 @@
 
 	<script>
 		// Создание звездного неба
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 150;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Случайные параметры звезд
-                const size = Math.random() * 3 + 1;
-                const left = Math.random() * 100;
-                const top = Math.random() * 100;
-                const delay = Math.random() * 5;
-                
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${left}%`;
-                star.style.top = `${top}%`;
-                star.style.animationDelay = `${delay}s`;
-                
-                starsContainer.appendChild(star);
-            }
-        }
+		function createStars() {
+			const starsContainer = document.getElementById('stars');
+			const starCount = 150;
 
-        // Диалоги между Колей и Сашей
-        const dialogues = [
-            // Первая часть диалога
-            [
-                { character: 'kolya', text: 'Привет, Саша! Слышал, ты хочешь научиться создавать сайты?', delay: 1000 },
-                { character: 'sasha', text: 'Да, Коля! Это же так круто - сделать свою страницу в интернете! С чего начать?', delay: 2000 },
-                { character: 'kolya', text: 'Начнем с основ HTML. Это как каркас сайта - определяет структуру и содержание.', delay: 3000 },
-                { character: 'sasha', text: 'Понял! HTML - это кости, на которые потом нарастет мясо?', delay: 4000 },
-                { character: 'kolya', text: 'Ха-ха, точно! Каждый HTML-документ начинается с объявления типа документа и тега html.', delay: 5000 },
-                { character: 'sasha', text: 'А что такое теги? Это как команды для браузера?', delay: 6000 },
-                { character: 'kolya', text: 'Да! Теги говорят браузеру, как отображать контент. Например, <h1> для заголовка, <p> для абзаца.', delay: 7000 },
-                { character: 'sasha', text: 'Вот я понял! Это как маркером выделять важное в тексте!', delay: 8000 }
-            ],
-            // Вторая часть диалога (после первого задания)
-            [
-                { character: 'kolya', text: 'Отлично справился с HTML! Теперь давай добавим стили с помощью CSS.', delay: 1000 },
-                { character: 'sasha', text: 'CSS - это чтобы сделать сайт красивым? Цвета, шрифты и всё такое?', delay: 2000 },
-                { character: 'kolya', text: 'Именно! CSS отвечает за внешний вид. Можно менять цвета, размеры, расположение элементов.', delay: 3000 },
-                { character: 'sasha', text: 'Круто! А это сложно? Мне кажется, там много разных свойств...', delay: 4000 },
-                { character: 'kolya', text: 'Начнем с простого! Основные свойства: color для цвета текста, background-color для фона.', delay: 5000 },
-                { character: 'sasha', text: 'О, а text-align: center - это чтобы по центру выравнивать? Я видел такое!', delay: 6000 },
-                { character: 'kolya', text: 'Точно! Ты уже вникаешь! Давай попробуем на практике.', delay: 7000 }
-            ],
-            // Финальная часть диалога
-            [
-                { character: 'kolya', text: 'Саша, ты молодец! За пару часов освоил основы HTML и CSS!', delay: 1000 },
-                { character: 'sasha', text: 'Спасибо, Коля! Ты отлично объясняешь! Теперь я понимаю, как работают сайты!', delay: 2000 },
-                { character: 'kolya', text: 'Это только начало! Дальше можно изучать JavaScript для интерактивности, адаптивную верстку...', delay: 3000 },
-                { character: 'sasha', text: 'Ух ты! А можно сделать анимации? Или чтобы кнопки менялись при наведении?', delay: 4000 },
-                { character: 'kolya', text: 'Конечно! В CSS есть transition и animation, а в JavaScript можно делать сложные взаимодействия.', delay: 5000 },
-                { character: 'sasha', text: 'Я обязательно продолжу изучать! Спасибо за помощь! Теперь я могу сделать сайт-визитку!', delay: 6000 },
-                { character: 'kolya', text: 'Отлично! Если будут вопросы - обращайся. Удачи в изучении веб-разработки! 🚀', delay: 7000 }
-            ]
-        ];
+			for (let i = 0; i < starCount; i++) {
+				const star = document.createElement('div');
+				star.className = 'star';
 
-        // Функция для добавления сообщений в чат
-        function addMessage(containerId, character, text, delay = 0) {
-            setTimeout(() => {
-                const container = document.getElementById(containerId);
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${character}`;
-                
-                const time = new Date().toLocaleTimeString('ru-RU', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-                
-                messageDiv.innerHTML = `
-                    ${character === 'kolya' ? 
-                        `<div class="avatar">К</div>` : 
-                        ''
-                    }
-                    <div class="message-content">
-                        <div class="message-text">${text}</div>
-                        <div class="message-time">${time}</div>
-                    </div>
-                    ${character === 'sasha' ? 
-                        `<div class="avatar">С</div>` : 
-                        ''
-                    }
-                `;
-                
-                container.appendChild(messageDiv);
-                container.scrollTop = container.scrollHeight;
-                
-                // Скрываем индикатор набора
-                if (character === 'kolya') {
-                    hideTypingIndicator(containerId.replace('chatContainer', 'typingIndicator'));
-                }
-            }, delay);
-        }
+				// Случайные параметры звезд
+				const size = Math.random() * 3 + 1;
+				const left = Math.random() * 100;
+				const top = Math.random() * 100;
+				const delay = Math.random() * 5;
 
-        // Функция для показа индикатора набора
-        function showTypingIndicator(indicatorId) {
-            const indicator = document.getElementById(indicatorId);
-            indicator.style.display = 'flex';
-        }
+				star.style.width = `${size}px`;
+				star.style.height = `${size}px`;
+				star.style.left = `${left}%`;
+				star.style.top = `${top}%`;
+				star.style.animationDelay = `${delay}s`;
 
-        // Функция для скрытия индикатора набора
-        function hideTypingIndicator(indicatorId) {
-            const indicator = document.getElementById(indicatorId);
-            indicator.style.display = 'none';
-        }
+				starsContainer.appendChild(star);
+			}
+		}
 
-        // Запуск диалогов
-        function startDialogues() {
-            // Первый диалог
-            showTypingIndicator('typingIndicator');
-            dialogues[0].forEach((msg, index) => {
-                addMessage('chatContainer', msg.character, msg.text, 
-                    index === 0 ? 1000 : dialogues[0][index-1].delay + 1000);
-            });
+		// Диалоги между Колей и Сашей
+		const dialogues = [
+			// Первый диалог
+			{ character: 'kolya', text: 'Привет, Саша! Слышал, ты хочешь научиться создавать сайты?' },
+			{ character: 'sasha', text: 'Да, Коля! Это же так круто - сделать свою страницу в интернете! С чего начать?' },
+			{ character: 'kolya', text: 'Начнем с основ HTML. Это как каркас сайта - определяет структуру и содержание.' },
+			{ character: 'sasha', text: 'Понял! HTML - это кости, на которые потом нарастет мясо?' },
+			{ character: 'kolya', text: 'Ха-ха, точно! Каждый HTML-документ начинается с объявления типа документа и тега html.' },
+			{ character: 'sasha', text: 'А что такое теги? Это как команды для браузера?' },
+			{ character: 'kolya', text: 'Да! Теги говорят браузеру, как отображать контент. Например, <h1> для заголовка, <p> для абзаца.' },
+			{ character: 'sasha', text: 'Вот я понял! Это как маркером выделять важное в тексте!' }
+		];
 
-            // Второй диалог (после выполнения первого задания)
-            setTimeout(() => {
-                showTypingIndicator('typingIndicator2');
-                dialogues[1].forEach((msg, index) => {
-                    addMessage('chatContainer2', msg.character, msg.text, 
-                        index === 0 ? 1000 : dialogues[1][index-1].delay + 1000);
-                });
-            }, 15000);
+		let conversationStarted = false;
+		let currentMessageIndex = 0;
 
-            // Третий диалог (после выполнения второго задания)
-            setTimeout(() => {
-                dialogues[2].forEach((msg, index) => {
-                    addMessage('chatContainer3', msg.character, msg.text, 
-                        index === 0 ? 1000 : dialogues[2][index-1].delay + 1000);
-                });
-            }, 30000);
-        }
+		// Функция для добавления сообщений в чат
+		function addMessage(character, text, isFromUser = false) {
+			const container = document.getElementById('chatContainer');
+			const messageDiv = document.createElement('div');
+			messageDiv.className = `message ${character}`;
 
-        // Функции для заданий
-        function checkTask1() {
-            const inputs = [
-                document.getElementById('task1-input1'),
-                document.getElementById('task1-input2'),
-                document.getElementById('task1-input3'),
-                document.getElementById('task1-input4')
-            ];
-            const feedback = document.getElementById('feedback1');
+			const time = new Date().toLocaleTimeString('ru-RU', {
+				hour: '2-digit',
+				minute: '2-digit'
+			});
 
-            const answers = ['html', 'lang', 'head', 'title'];
-            let allCorrect = true;
+			messageDiv.innerHTML = `
+				${character === 'kolya' ?
+					`<div class="avatar">К</div>` :
+					''
+				}
+				<div class="message-content">
+					<div class="message-text">${text}</div>
+					<div class="message-time">${time}</div>
+				</div>
+				${character === 'sasha' ?
+					`<div class="avatar">С</div>` :
+					''
+				}
+			`;
 
-            inputs.forEach((input, index) => {
-                if (input.value.toLowerCase() === answers[index]) {
-                    input.classList.add('correct');
-                    input.classList.remove('incorrect');
-                } else {
-                    input.classList.add('incorrect');
-                    input.classList.remove('correct');
-                    allCorrect = false;
-                }
-            });
+			container.appendChild(messageDiv);
+			container.scrollTop = container.scrollHeight;
+		}
 
-            if (allCorrect) {
-                feedback.textContent = '✅ Отлично, Саша! Ты правильно создал HTML структуру! Коля был бы горд!';
-                feedback.className = 'feedback correct';
-                feedback.style.display = 'block';
-                
-                // Прокрутка ко второму заданию
-                setTimeout(() => {
-                    document.getElementById('task2').scrollIntoView({ behavior: 'smooth' });
-                }, 2000);
-            } else {
-                feedback.textContent = '❌ Есть небольшие ошибки. Проверь правильность тегов и атрибутов.';
-                feedback.className = 'feedback incorrect';
-                feedback.style.display = 'block';
-            }
-        }
+		// Функция для показа индикатора набора
+		function showTypingIndicator() {
+			const indicator = document.getElementById('typingIndicator');
+			indicator.style.display = 'flex';
+		}
 
-        function checkTask2() {
-            const inputs = [
-                document.getElementById('task2-input1'),
-                document.getElementById('task2-input2'),
-                document.getElementById('task2-input3'),
-                document.getElementById('task2-input4'),
-                document.getElementById('task2-input5')
-            ];
-            const feedback = document.getElementById('feedback2');
+		// Функция для скрытия индикатора набора
+		function hideTypingIndicator() {
+			const indicator = document.getElementById('typingIndicator');
+			indicator.style.display = 'none';
+		}
 
-            const answers = ['color', 'lightblue', 'color', 'darkblue', 'align'];
-            let allCorrect = true;
+		// Запуск беседы
+		async function startConversation() {
+			const writeButton = document.getElementById('writeToKolyaBtn');
+			
+			if (conversationStarted) {
+				// Если беседа уже начата, отправляем сообщение от пользователя
+				const userMessage = prompt('Что вы хотите написать Коле?');
+				if (userMessage && userMessage.trim() !== '') {
+					addMessage('sasha', userMessage.trim(), true);
+					
+					// Показываем индикатор набора
+					showTypingIndicator();
+					
+					// Через 2 секунды добавляем ответ от Коли
+					setTimeout(() => {
+						const responses = [
+							"Отличный вопрос! Давай разберем его подробнее.",
+							"Интересная мысль! В веб-разработке это очень важно.",
+							"Правильно подметил! Это основа основ.",
+							"Рад, что ты интересуешься! Продолжай в том же духе!",
+							"Хороший вопрос! Давай я покажу тебе на примере.",
+							"Именно! Ты начинаешь понимать суть веб-разработки!",
+							"Отличное наблюдение! Теперь давай попробуем применить это на практике.",
+							"Верно! Именно так работает HTML и CSS."
+						];
+						const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+						hideTypingIndicator();
+						addMessage('kolya', randomResponse);
+					}, 2000);
+				}
+			} else {
+				// Если беседа еще не начата, запускаем первый диалог
+				writeButton.disabled = true;
+				writeButton.textContent = '💭 Коля думает...';
+				
+				conversationStarted = true;
+				
+				// Запускаем первый диалог с задержками
+				for (let i = 0; i < dialogues.length; i++) {
+					const msg = dialogues[i];
+					
+					if (msg.character === 'kolya') {
+						showTypingIndicator();
+						await new Promise(resolve => setTimeout(resolve, 1500));
+						hideTypingIndicator();
+					}
+					
+					addMessage(msg.character, msg.text);
+					await new Promise(resolve => setTimeout(resolve, 2000));
+				}
+				
+				// Активируем кнопку обратно
+				writeButton.disabled = false;
+				writeButton.textContent = '✏️ Отправить сообщение Коле';
+			}
+		}
 
-            inputs.forEach((input, index) => {
-                if (input.value.toLowerCase() === answers[index]) {
-                    input.classList.add('correct');
-                    input.classList.remove('incorrect');
-                } else {
-                    input.classList.add('incorrect');
-                    input.classList.remove('correct');
-                    allCorrect = false;
-                }
-            });
+		// Функции для заданий
+		function checkTask1() {
+			const inputs = [
+				document.getElementById('task1-input1'),
+				document.getElementById('task1-input2'),
+				document.getElementById('task1-input3'),
+				document.getElementById('task1-input4')
+			];
+			const feedback = document.getElementById('feedback1');
 
-            if (allCorrect) {
-                feedback.textContent = '✅ Прекрасно! Ты освоил основы CSS! Теперь твои страницы будут красивыми!';
-                feedback.className = 'feedback correct';
-                feedback.style.display = 'block';
-                
-                // Прокрутка к финалу
-                setTimeout(() => {
-                    document.getElementById('chatContainer3').scrollIntoView({ behavior: 'smooth' });
-                }, 2000);
-            } else {
-                feedback.textContent = '❌ Почти получилось! Проверь названия свойств и цветов.';
-                feedback.className = 'feedback incorrect';
-                feedback.style.display = 'block';
-            }
-        }
+			const answers = ['html', 'lang', 'head', 'title'];
+			let allCorrect = true;
 
-        function showHint(hintId) {
-            const hint = document.getElementById(hintId);
-            hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
-        }
+			inputs.forEach((input, index) => {
+				if (input.value.toLowerCase() === answers[index]) {
+					input.classList.add('correct');
+					input.classList.remove('incorrect');
+				} else {
+					input.classList.add('incorrect');
+					input.classList.remove('correct');
+					allCorrect = false;
+				}
+			});
 
-        // Запуск при загрузке страницы
-        window.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            startDialogues();
-        });
+			if (allCorrect) {
+				feedback.textContent = '✅ Отлично, Саша! Ты правильно создал HTML структуру! Коля был бы горд!';
+				feedback.className = 'feedback correct';
+				feedback.style.display = 'block';
+			} else {
+				feedback.textContent = '❌ Есть небольшие ошибки. Проверь правильность тегов и атрибутов.';
+				feedback.className = 'feedback incorrect';
+				feedback.style.display = 'block';
+			}
+		}
+
+		function checkTask2() {
+			const inputs = [
+				document.getElementById('task2-input1'),
+				document.getElementById('task2-input2'),
+				document.getElementById('task2-input3'),
+				document.getElementById('task2-input4'),
+				document.getElementById('task2-input5')
+			];
+			const feedback = document.getElementById('feedback2');
+
+			const answers = ['color', 'lightblue', 'color', 'darkblue', 'align'];
+			let allCorrect = true;
+
+			inputs.forEach((input, index) => {
+				if (input.value.toLowerCase() === answers[index]) {
+					input.classList.add('correct');
+					input.classList.remove('incorrect');
+				} else {
+					input.classList.add('incorrect');
+					input.classList.remove('correct');
+					allCorrect = false;
+				}
+			});
+
+			if (allCorrect) {
+				feedback.textContent = '✅ Прекрасно! Ты освоил основы CSS! Теперь твои страницы будут красивыми!';
+				feedback.className = 'feedback correct';
+				feedback.style.display = 'block';
+			} else {
+				feedback.textContent = '❌ Почти получилось! Проверь названия свойств и цветов.';
+				feedback.className = 'feedback incorrect';
+				feedback.style.display = 'block';
+			}
+		}
+
+		function showHint(hintId) {
+			const hint = document.getElementById(hintId);
+			hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+		}
+
+		// Запуск при загрузке страницы
+		window.addEventListener('DOMContentLoaded', () => {
+			createStars();
+		});
 	</script>
 </body>
 
